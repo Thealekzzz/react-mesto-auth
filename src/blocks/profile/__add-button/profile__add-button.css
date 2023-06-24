@@ -1,0 +1,27 @@
+.profile__add-button {
+    width: 150px;
+    height: 50px;
+
+    border: 2px solid #FFFFFF;
+    border-radius: 2px;
+
+    background: url(../../../images/plusButtonIcon.svg) center no-repeat;
+    background-size: 22px 22px;
+
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    .profile__add-button {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .profile__add-button {
+        width: 282px;
+        margin-left: 0;
+
+        background-size: 16px 16px;
+    }
+}

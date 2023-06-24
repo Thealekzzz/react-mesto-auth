@@ -1,0 +1,30 @@
+.footer {
+    box-sizing: border-box;
+
+    font-family: "Inter", "Arial", sans-serif;
+    font-weight: normal;
+    color: #545454;
+    font-size: 18px;
+    line-height: 22px;
+
+    width: 880px;
+    margin: 0 auto;
+    padding: 0 0 60px;
+}
+
+@media (max-width: 1000px) {
+    .footer {
+        width: 88%;
+    }
+}
+
+@media (max-width: 500px) {
+    .footer {
+        width: 100%;
+        padding: 0 20px;
+        margin: 48px auto 36px;
+
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

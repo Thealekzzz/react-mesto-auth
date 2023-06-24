@@ -1,0 +1,26 @@
+.profile__update-avatar {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    border: none;
+    border-radius: 50%;
+    
+    background-color: rgba(0, 0, 0, .8);
+    background-image: url(../../../images/edit_size_L.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition: opacity 0.2s;
+}
+
+.profile__update-avatar:hover {
+    opacity: 1;
+}

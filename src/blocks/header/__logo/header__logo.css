@@ -1,0 +1,16 @@
+.heared__logo {
+    display: block;
+    
+    width: 142px;
+    height: 33px;
+
+    object-fit: cover;
+}
+
+@media (max-width: 500px) {
+    .header__logo {
+        width: 104px;
+        height: 24px;
+
+    }
+}

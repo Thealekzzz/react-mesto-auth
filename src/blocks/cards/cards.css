@@ -1,0 +1,31 @@
+.cards {
+    box-sizing: border-box;
+
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 17px;
+
+    width: 880px;
+    margin: 0 auto 66px;
+    padding: 0;
+
+    list-style: none;
+}
+
+@media (max-width: 1000px) {
+    .cards {
+        width: fit-content;
+        padding: 0 20px;
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .cards {
+        grid-template-columns: 1fr;
+
+        margin-bottom: 48px;
+    }
+}
