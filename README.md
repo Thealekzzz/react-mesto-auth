@@ -17,4 +17,4 @@
 Работа с сервером через REST API.
 
 
-[Ссылка на сайт в Pages](https://thealekzzz.github.io/mesto-react-auth/)
+[Ссылка на сайт в Pages](https://thealekzzz.github.io/react-mesto-auth/)
