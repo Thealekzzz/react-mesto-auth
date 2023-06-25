@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Popup = ({ name, isOpen, onClose, children, extraClassName }) => {
   function handlePopupClick() {
@@ -8,6 +8,19 @@ const Popup = ({ name, isOpen, onClose, children, extraClassName }) => {
   function handleContainerClick(evt) {
     evt.stopPropagation();
   }
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const closeByEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    document.addEventListener('keydown', closeByEscape)
+    return () => document.removeEventListener('keydown', closeByEscape)
+  }, [isOpen, onClose]);
 
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`} onClick={handlePopupClick}>

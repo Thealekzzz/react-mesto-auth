@@ -3,33 +3,22 @@ import authApi from '../utils/auth';
 import InfoTooltip from './InfoTooltip';
 import { Navigate, useNavigate } from 'react-router-dom';
 import IsUserLoggedContext from '../contexts/IsUserLoggedContext';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 const Login = ({ onLogin }) => {
   const navigate = useNavigate();
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  })
+
+  const {values, handleChange, handleBlur, isValid, errors } = useFormAndValidation();
 
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
 
   const isLoggedIn = useContext(IsUserLoggedContext);
 
-  function handleFormChange(evt) {
-    const {name, value} = evt.target;
-
-    setFormValue(prev => ({
-      ...prev,
-      [name]: value
-    }))
-    
-  }
-
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    authApi.login(formValue)
+    authApi.login(values)
     .then(data => {
       onLogin(data);
       navigate("/");
@@ -50,39 +39,41 @@ const Login = ({ onLogin }) => {
 
         <div className="form__inputs">
 
-          <label>
+          <label className='form__label'>
             <input
               required
               minLength="2"
-              type="text"
+              type="email"
               className="form__input form__input_data_title"
               id="email-input"
               name="email"
-              value={formValue.email}
-              onChange={handleFormChange}
+              value={values.email || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
               placeholder="Email"
             />
-            <span className="form__input-error email-input-error"></span>
+            <span className="form__input-error email-input-error">{errors.email || ""}</span>
 
           </label>
-          <label>
+          <label className="form__label">
             <input
               required
-              minLength="2"
+              minLength="5"
               type="password"
               className="form__input form__input_data_password"
               id="password-input"
               name="password"
-              value={formValue.password}
-              onChange={handleFormChange}
+              value={values.password || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
               placeholder="Пароль"
             />
-            <span className="form__input-error password-input-error"></span>
+            <span className="form__input-error password-input-error">{errors.password || ""}</span>
 
           </label>
         </div>
 
-        <button className="form__button hoverable hoverable_level_low" type='submit'>Войти</button>
+        <button className="form__button hoverable hoverable_level_low" disabled={!isValid} type='submit'>Войти</button>
       </form>
       <InfoTooltip 
         isOpen={isTooltipOpen} 

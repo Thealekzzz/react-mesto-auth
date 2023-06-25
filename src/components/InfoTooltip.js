@@ -11,7 +11,7 @@ const InfoTooltip = ({ isOpen, isSuccessful, onClose }) => {
       onClose={onClose}
       extraClassName="popup_type_tooltip"
     >
-      <img src={isSuccessful ? successIcon : errorIcon} alt="" className="popup__status-image" />
+      <img src={isSuccessful ? successIcon : errorIcon} alt="Статус, иконка" className="popup__status-image" />
       <p className="popup__status-message">
         {isSuccessful
           ? "Вы успешно зарегистрировались!"
