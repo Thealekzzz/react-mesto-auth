@@ -1,0 +1,10 @@
+.header__right_type_mobile {
+  padding: 5px;
+  cursor: pointer;
+}
+
+@media (min-width: 500px) {
+  .header__right_type_mobile {
+    display: none;
+  }
+}

@@ -1,0 +1,14 @@
+.mobile-header {
+  width: 100%;
+  max-height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 40px 0;
+
+  transition:
+    max-height .5s cubic-bezier(0.165, 0.84, 0.44, 1),
+    padding .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}

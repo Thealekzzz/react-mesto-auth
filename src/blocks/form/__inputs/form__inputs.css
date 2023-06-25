@@ -1,0 +1,7 @@
+.form__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  margin-bottom: 216px;
+}

@@ -1,0 +1,30 @@
+.header__burger {
+  width: 24px;
+  height: 3px;
+
+  background-color: white;
+
+  position: relative;
+}
+
+.header__burger::before, .header__burger::after {
+  content: " ";
+  position: absolute;
+
+  width: 24px;
+  height: 3px;
+
+  background-color: white;
+}
+
+.header__burger::before {
+  top: 8px;
+}
+
+.header__burger::after {
+  top: 16px;
+}
+
+.header__burger, .header__burger::before, .header__burger::after {
+  transition: transform .3s, height .3s;
+}

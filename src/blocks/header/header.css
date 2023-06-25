@@ -2,6 +2,7 @@
     box-sizing: border-box;
 
     display: flex;
+    justify-content: space-between;
 
     max-width: 880px;
     padding: 45px 0 41px;
@@ -20,5 +21,6 @@
     .header {
         width: 100%;
         padding: 28px 27px 31px;
+        border-top: 1px solid rgba(84, 84, 84, .7);
     }
 }

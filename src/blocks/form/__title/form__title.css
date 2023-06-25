@@ -1,0 +1,16 @@
+.form__title {
+  text-align: center;
+  margin: 0 0 50px;
+
+  color: #FFF;
+  text-align: center;
+  font-size: 24px;
+  font-family: Inter;
+  font-weight: 900;
+}
+
+@media (max-width: 400px) {
+  .form__title {
+    font-size: 20px;
+  }
+}

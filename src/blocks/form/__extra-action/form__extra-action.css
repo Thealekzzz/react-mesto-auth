@@ -1,0 +1,13 @@
+.form__extra-action {
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  font-family: Inter;
+
+  margin: 15px 0 0;
+}
+
+.form__extra-action > a {
+  text-decoration: none;
+  color: white;
+}

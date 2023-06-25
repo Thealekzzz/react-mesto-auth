@@ -1,0 +1,7 @@
+@media (max-width: 400px) {
+  .form_type_sign {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 30px;
+  }
+}

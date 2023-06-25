@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Footer from './Footer';
 import Header from './Header';
@@ -8,14 +9,21 @@ import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import IsUserLoggedContext from '../contexts/IsUserLoggedContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmPopup from './ConfirmPopup';
 
 import ValidationOptionsContext from '../contexts/ValidationOptionsContext';
+import ProtectedRouteElement from './ProtectedRoute';
+import Login from './Login';
+import Registration from './Registration';
+import authApi from '../utils/auth';
 
 function App() {
+  const navigate = useNavigate();
+
   const [isEditProfilePopupOpened, setIsEditProfilePopupOpened] = useState(false);
   const [isAddPlacePopupOpened, setIsAddPlacePopupOpened] = useState(false);
   const [isEditAvatarPopupOpened, setIsEditAvatarPopupOpened] = useState(false);
@@ -27,10 +35,13 @@ function App() {
   const [isDeleteCardPopupLoading, setIsDeleteCardPopupLoading] = useState(false);
 
   const [currentUser, setCurrentUser] = useState({});
+  const [email, setEmail] = useState("");
 
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({});
   const [cardToDelete, setCardToDelete] = useState({});
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
   function handleEditAvatarClick() {
@@ -140,6 +151,31 @@ function App() {
       });
   }
 
+  function verifyToken(token) {
+    authApi.auth(token)
+      .then(data => {
+        setIsLoggedIn(true);
+        setEmail(data.data.email);
+      })
+      .catch(err => {
+        console.log("Ошибка при проверке токена");
+      });
+  }
+
+  function handleLogin(data) {
+    localStorage.setItem("token", data.token);
+    setIsLoggedIn(true);
+    verifyToken(data.token);
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    setCurrentUser({});
+
+    localStorage.removeItem("token");
+    navigate("/sign-in");
+  }
+
   useEffect(() => {
     api.getUserData()
       .then(data => {
@@ -156,47 +192,66 @@ function App() {
       .catch(err => {
         console.log("Ошибка получения фотографий");
       });
-  }, [])
+
+    if (localStorage.getItem("token")) {
+      verifyToken(localStorage.getItem("token"));
+    }
+  }, []);
 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleDeleteCardClick}
-          onUpdateUser={handleUpdateUser}
-          cards={cards}
-          selectedCard={selectedCard}
-        />
-        <Footer />
+      <IsUserLoggedContext.Provider value={isLoggedIn}>
+        <div className="page">
+          <Header onLogout={handleLogout} email={email} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRouteElement
+                  isLoggedIn={isLoggedIn}
+                  element={Main}
 
-        <ValidationOptionsContext.Provider value={{
-          formSelector: '.popup__form',
-          inputSelector: '.popup__input',
-          submitButtonSelector: '.popup__submit-button',
-          inactiveButtonClass: 'popup__submit-button_disabled',
-          inputErrorClass: 'popup__input_invalid',
-          errorClass: 'popup__input-error_visible'
-        }}>
-          <EditProfilePopup isOpen={isEditProfilePopupOpened} onClose={closeAllPopups} isLoading={isEditProfilePopupLoading} onUpdateUser={handleUpdateUser} />
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleDeleteCardClick}
+                  onUpdateUser={handleUpdateUser}
+                  cards={cards}
+                  selectedCard={selectedCard}
+                />
+              }
+            />
+            <Route path='/sign-in' element={<Login onLogin={handleLogin} />} />
+            <Route path='/sign-up' element={<Registration />} />
+          </Routes>
 
-          <AddPlacePopup isOpen={isAddPlacePopupOpened} onClose={closeAllPopups} isLoading={isAddPlacePopupLoading} onSubmit={handleAddPlaceSubmit} />
+          {isLoggedIn && <Footer />}
 
-          <ImagePopup selectedCard={selectedCard} onClose={closeAllPopups} />
+          <ValidationOptionsContext.Provider value={{
+            formSelector: '.popup__form',
+            inputSelector: '.popup__input',
+            submitButtonSelector: '.popup__submit-button',
+            inactiveButtonClass: 'popup__submit-button_disabled',
+            inputErrorClass: 'popup__input_invalid',
+            errorClass: 'popup__input-error_visible'
+          }}>
+            <EditProfilePopup isOpen={isEditProfilePopupOpened} onClose={closeAllPopups} isLoading={isEditProfilePopupLoading} onUpdateUser={handleUpdateUser} />
 
-          <ConfirmPopup isLoading={isDeleteCardPopupLoading} isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} onSubmit={() => handleCardDelete(cardToDelete)} />
+            <AddPlacePopup isOpen={isAddPlacePopupOpened} onClose={closeAllPopups} isLoading={isAddPlacePopupLoading} onSubmit={handleAddPlaceSubmit} />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpened} onClose={closeAllPopups} isLoading={isEditAvatarPopupLoading} onUpdateAvatar={handleUpdateAvatar} />
+            <ImagePopup selectedCard={selectedCard} onClose={closeAllPopups} />
 
-        </ValidationOptionsContext.Provider>
+            <ConfirmPopup isLoading={isDeleteCardPopupLoading} isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} onSubmit={() => handleCardDelete(cardToDelete)} />
 
-      </div>
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpened} onClose={closeAllPopups} isLoading={isEditAvatarPopupLoading} onUpdateAvatar={handleUpdateAvatar} />
+
+          </ValidationOptionsContext.Provider>
+
+        </div>
+      </IsUserLoggedContext.Provider>
     </CurrentUserContext.Provider>
   );
 }

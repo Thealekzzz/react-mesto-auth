@@ -1,0 +1,11 @@
+.header__right_type_desktop {
+  display: flex;
+  gap: 24px;
+
+}
+
+@media (max-width: 500px) {
+  .header__right_type_desktop {
+    display: none;
+  }
+}

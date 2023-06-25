@@ -1,0 +1,12 @@
+.header__burger_is-open::before {
+  transform: rotate(45deg) translateX(0px) translateY(0px);
+}
+
+.header__burger_is-open::after {
+  transform: rotate(-45deg) translateY(-5px) translateX(6px);
+}
+
+.header__burger_is-open {
+  /* top: 8px; */
+  height: 0%;
+}
