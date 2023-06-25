@@ -73,8 +73,6 @@ const PopupWithForm = ({ name, title, isOpen, onClose, children, buttonText, onS
 	return (
 		<Popup name={name} isOpen={isOpen} onClose={onClose}>
 			<h2 className="popup__title">{title}</h2>
-			<button onClick={onClose} className="popup__close-button popup__close-button_type_edit hoverable" type="button"
-				aria-label="Закрыть всплывающее окно, кнопка"></button>
 
 			<form className={`popup__form popup__form_type_${name}`} name={`${name}-form`} onSubmit={onSubmit} ref={formRef}>
 				{children}
